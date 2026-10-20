@@ -1,84 +1,46 @@
-#include "my_qsort.h"
+#include <stdio.h>
 
-/*
-  quicksort эрэмбэлэх аргын цааш хуваагдах ёсгүй хэмжээ
-*/
-#ifndef CUTOFF
-#define CUTOFF 10
-#endif
-
-static int init_seed = 0;  // Random seed 1 удаа эхлүүлнэ
-
-/*
-  Оруулан эрэмбэлэх функц.
-  [lo, hi] завсрах тоонуудыг оруулан эрэмбэлэх аргаар эрэмбэлнэ.
-*/
-static void insertion_sort(int a[], int lo, int hi)
-{
-        /* Оруулан эрэмбэлэх аргыг хэрэгжүүл */
+void swap(int a, int b) {
+    int t = a;
+    a = b;
+    b = t;
 }
 
-/*
-  Хоёр утгыг хооронд солих функц
-*/
-static void swap(int *a, int *b)
-{
-        int tmp = *a;
-        *a = *b;
-        *b = tmp;
-}
+int partition(int arr[], int low, int high) {
+    int pivot = arr[high];
+    int i = low;     
 
-/*
-  [lo, hi] завсрыг санамсаргүйгээр холих функц.
-*/
-static void random_shuffle(int a[], int lo, int hi)
-{
-        if (init_seed == 0) {
-                srand(time(NULL));
-                init_seed = 1;
+    for (int j = low; j <= high - 1; j++) {
+        if (arr[j] < pivot) {
+            swap(arr[i], arr[j]); 
+            i++;
         }
-        int i, j;
-        for (i = lo; i <= hi; i++) {
-                j = rand() % (hi - lo) + lo;
-                swap(&a[i], &a[j]);
-        }
+    }
+    
+    swap(arr[i], arr[high]); 
+    return i;
 }
 
-/*
-  1-pivot хурдан эрэмбэлэх функц.
-*/
-static void _single_pivot_qsort(int a[], int lo, int hi)
-{
-        /* Энд quicksort хэрэгжүүл */
+void quickSort(int arr[], int low, int high) {
+    int pi = partition(arr, low, high);
+
+    quickSort(arr, low, pi);      
+    quickSort(arr, pi, high);     
 }
 
-/*
-  wrapper function for _single_pivot_qsort
-  _single_pivot_qsort-ыг дуудахад ашиглах функц
- */
-void single_pivot_qsort(int a[], int lo, int hi)
-{
-        random_shuffle(a, lo, hi);
-        _single_pivot_qsort(a, lo, hi);
+void printArray(int arr[], int size) {
+    for (int i = 0; i < size; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
 }
 
-/*
-  Dual-pivot хурдан эрэмбэлэх функц
-*/
-static void _dual_pivot_qsort(int a[], int lo, int hi)
-{
-        /*
-          Энд dual-pivot quicksort хэрэгжүүл
-        */
-	
-}
-/*
-  wrapper function for _dual_pivot_qsort
-  _dual_pivot_qsort-ыг дуудахад ашиглах функц
-*/
-void dual_pivot_qsort(int a[], int lo, int hi)
-{
-        random_shuffle(a, lo, hi);
-        _dual_pivot_qsort(a, lo, hi);
-}
+int main() {
+    int arr[] = {10, 7, 8, 9, 1, 5};
+    int n = sizeof(arr) / sizeof(arr[0]);
 
+    quickSort(arr, 0, n); 
+
+    printArray(arr, n);
+    return 0;
+}
