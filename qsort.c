@@ -17,15 +17,20 @@ int partition(int arr[], int low, int high) {
         }
     }
     
-    swap(arr[i], arr[high]); 
-    return i;
+    // Энд i + 1 болгож зассан
+    swap(&arr[i + 1], &arr[high]); 
+    return (i + 1);
 }
 
 void quickSort(int arr[], int low, int high) {
-    int pi = partition(arr, low, high);
+    // Base case нэмсэн
+    if (low < high) {
+        int pi = partition(arr, low, high);
 
-    quickSort(arr, low, pi);      
-    quickSort(arr, pi, high);     
+        // Рекурсив дуудлагын индексийг зөв болгосон (pi - 1, pi + 1)
+        quickSort(arr, low, pi - 1);      
+        quickSort(arr, pi + 1, high);     
+    }
 }
 
 void printArray(int arr[], int size) {
@@ -39,7 +44,8 @@ int main() {
     int arr[] = {10, 7, 8, 9, 1, 5};
     int n = sizeof(arr) / sizeof(arr[0]);
 
-    quickSort(arr, 0, n); 
+    // n - 1 болгож хязгаар алдааг зассан
+    quickSort(arr, 0, n - 1); 
 
     printArray(arr, n);
     return 0;
