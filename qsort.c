@@ -29,19 +29,20 @@ void quickSort(int arr[], int low, int high) {
     }
 }
 
-void printArray(int arr[], int size) {
-    for (int i = 0; i < size; i++) {
-        printf("%d ", arr[i]);
-    }
-    printf("\n");
-}
-
 int main() {
     int arr[] = {10, 7, 8, 9, 1, 5};
     int n = sizeof(arr) / sizeof(arr[0]);
 
     quickSort(arr, 0, n - 1);
 
-    printArray(arr, n);
+    // Зөвхөн тоонуудыг зайгаар тусгаарлаж хэвлэх (Тест шаардлага хангана)
+    for (int i = 0; i < n; i++) {
+        printf("%d", arr[i]);
+        if (i < n - 1) {
+            printf(" ");
+        }
+    }
+    printf("\n");
+
     return 0;
 }
